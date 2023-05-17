@@ -37,12 +37,13 @@ def execute_sql_query(query):
     driver="{ODBC Driver 17 for SQL Server}"
     db_token = ''
     connection_string = 'DRIVER='+driver+';SERVER='+server+';DATABASE='+database
+    logging.info('HS - Inside execute_sql_query function- connection string: %s',connection_string)
     
     #When MSI is enabled
     if os.getenv("MSI_SECRET"):
         logging.info('If block of checking MSI')
         conn = pyodbc.connect(connection_string+';Authentication=ActiveDirectoryMsi')
-    
+        logging.info('HS - Inside execute_sql_query function -after connection object')
     #Used when run from local
     else:
         SQL_COPT_SS_ACCESS_TOKEN = 1256
@@ -55,8 +56,9 @@ def execute_sql_query(query):
         tokenstruct = struct.pack("=i", len(exptoken)) + exptoken
         conn = pyodbc.connect(connection_string, attrs_before = { SQL_COPT_SS_ACCESS_TOKEN:tokenstruct })
     
-    
+    logging.info('HS - Inside execute_sql_query function -before cursor')
     cursor = conn.cursor()
+    logging.info('HS - Inside execute_sql_query function -before execute query')
     cursor.execute(query) 
     data =cursor.fetchall()
 
