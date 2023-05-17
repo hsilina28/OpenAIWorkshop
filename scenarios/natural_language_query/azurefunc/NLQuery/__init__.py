@@ -29,6 +29,7 @@ def run_openai(prompt, engine=GPT_ENGINE):
 
 def execute_sql_query(query):
     #logging.info('Python HTTP trigger function processed a request.')
+    logging.info('HS - inside execute_sql_query function')
     server=os.getenv("SQL_SERVER_NAME")
     database=os.getenv("SQL_DB_NAME")
     
@@ -162,6 +163,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             logging.info(openai_query)
             sql_query = run_openai(openai_query)
             logging.info(sql_query)
+            logging.info('HS - before call to execute_sql_query function')
             result= execute_sql_query(sql_query)
             #logging.info(result)
             break
